@@ -7,7 +7,7 @@ import os
 from time import strftime, localtime, sleep
 from rettwitter import retTwitter
 
-PATH = os.path.realpath(__file__)
+PATH = '/'.join(os.path.realpath(__file__).split('/')[:-1])
 TOKENFILE = PATH + '/../share/tokens.list'
 RET = retTwitter(TOKENFILE)
 ILLEGAL_CHARS = "\""
