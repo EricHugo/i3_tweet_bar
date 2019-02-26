@@ -3,10 +3,12 @@
 from __future__ import print_function
 import sys
 import re
+import os
 from time import strftime, localtime, sleep
 from rettwitter import retTwitter
 
-TOKENFILE = '/home/hugoson/git/timer_bar/share/tokens.list'
+PATH = os.path.realpath(__file__)
+TOKENFILE = PATH + '/../share/tokens.list'
 RET = retTwitter(TOKENFILE)
 ILLEGAL_CHARS = "\""
 
