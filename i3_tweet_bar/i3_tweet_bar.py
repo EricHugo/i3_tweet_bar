@@ -10,14 +10,17 @@ from rettwitter import retTwitter
 PATH = '/'.join(os.path.realpath(__file__).split('/')[:-1])
 TOKENFILE = PATH + '/../share/tokens.list'
 RET = retTwitter(TOKENFILE)
-ILLEGAL_CHARS = "\""
+ILLEGAL_CHARS = "[\"\']"
 
 def get_clock():
     return strftime("%a, %d %b %Y %H:%M:%S", localtime())
 
 def format_tweet(query):
     tweet = RET.retsearch(query)
-    return tweet
+    split_tweet = tweet[0].split('\n')
+    test = ' '.join(split_tweet)
+    formatted_tweet = [test] + [tweet[1]]
+    return formatted_tweet
 
 def main():
     print('{ "version": 1 }')
@@ -28,12 +31,12 @@ def main():
         if i >= 60:
             try:
                 tweet = format_tweet("genomeresearch")
-            except Exception:
-                tweet = ("Error:", "there is an issue with the tweet fetching"\
-                                    "at the moment")
+            except Exception as e:
+                tweet = ("there is an issue with the tweet fetching "\
+                                    "at the moment", "Error")
             i = 0
         print(",[{\"name\":\"divider\",\"full_text\":\"@%s: %s \",\"color\":"\
-              "\"#FFFFFF\"}" % (tweet[1], re.sub(re.escape(ILLEGAL_CHARS), '', tweet[0])))
+              "\"#FFFFFF\"}" % (tweet[1], re.sub(ILLEGAL_CHARS, '', tweet[0])))
         print(",{\"name\":\"time\",\"full_text\":\" %s \",\"color\":"\
               "\"#57c7ff\"}" % get_clock())
         print(",{\"name\":\"divider_end\",\"full_text\":\" \",\"color\":"\
