@@ -13,10 +13,12 @@ class retTwitter():
 
 
     def retsearch(self, query):
-        public_tweets = self.api.user_timeline(screen_name=query,
-                                               count=1)
+        if query:
+            public_tweets = self.api.home_timeline(screen_name=query, count=1)
+        else:
+            public_tweets = self.api.home_timeline(count=1)
         for tweet in public_tweets:
-            return tweet.text, tweet.user.name
+            return tweet.text, tweet.user.screen_name
         return tuple("No tweet found",)
 
 
