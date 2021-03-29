@@ -15,7 +15,7 @@ ILLEGAL_CHARS = "[\"\']"
 def get_clock():
     return strftime("%a, %d %b %Y %H:%M:%S", localtime())
 
-def format_tweet(query):
+def format_tweet(query=None):
     tweet = RET.retsearch(query)
     split_tweet = tweet[0].split('\n')
     test = ' '.join(split_tweet)
@@ -30,12 +30,12 @@ def main():
     while True:
         if i >= 60:
             try:
-                tweet = format_tweet("genomeresearch")
+                tweet = format_tweet()
             except Exception as e:
                 tweet = ("there is an issue with the tweet fetching "\
                                     "at the moment", "Error")
             i = 0
-        print(",[{\"name\":\"divider\",\"full_text\":\"@%s: %s \",\"color\":"\
+        print(",[{\"name\":\"tweet\",\"full_text\":\"@%s: %s \",\"color\":"\
               "\"#FFFFFF\"}" % (tweet[1], re.sub(ILLEGAL_CHARS, '', tweet[0])))
         print(",{\"name\":\"time\",\"full_text\":\" %s \",\"color\":"\
               "\"#57c7ff\"}" % get_clock())
